@@ -13,7 +13,7 @@ struct LoginView: View {
         ZStack {
             Color.theme.background
                 .ignoresSafeArea()
-            VStack(spacing: 200) {
+            VStack(spacing: 100) {
                 VStack {
                     Image("Logo")
                         .resizable()
@@ -24,7 +24,7 @@ struct LoginView: View {
             }
         }
     }
-    
+
     private var loginButton: some View {
         ZStack {
             if loginViewModel.isBusy {

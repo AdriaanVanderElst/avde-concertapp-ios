@@ -13,19 +13,15 @@ struct ConcertDetailView: View {
     @State private var isAnimating = false
 
     var body: some View {
-        ZStack {
-            Color.theme.background.ignoresSafeArea()
-            content
-        }.onAppear {
-            viewModel.newComment = concert.details.comment
-        }
-    }
-
-    private var content: some View {
         VStack(alignment: .leading) {
             header
             concertDetails
+            Spacer()
             commentSection
+        }
+        .background(Color.theme.background.ignoresSafeArea())
+        .onAppear {
+            viewModel.newComment = concert.details.comment
         }
     }
 
@@ -49,7 +45,10 @@ struct ConcertDetailView: View {
     }
 
     private var concertDetails: some View {
-        VStack {
+        let columns = [
+            GridItem(.adaptive(minimum: 300), spacing: 16),
+        ]
+        return LazyVGrid(columns: columns) {
             DetailCard(label: "Datum", value: concert.date.formatted(.dateTime.locale(Locale(identifier: "nl_BE"))))
             DetailCard(label: "Adres", value: "\(concert.address.street) \(concert.address.number), \(concert.address.city)")
             DetailCard(label: "Organisatie", value: concert.details.organisation)
