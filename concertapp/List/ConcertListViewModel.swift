@@ -9,21 +9,13 @@ import Auth0
 import SwiftUI
 
 class ConcertListViewModel: ObservableObject {
-    typealias Concert = ConcertList.Concert
-
-    private var concertList = ConcertList()
-
     @Published var concerts: [Concert] = []
-
-    @Published var concertDetail: Concert? = nil
-
-    @Published var newComment: String = ""
 
     @Published var error: NetworkError?
 
     func fetchConcerts() async {
         do {
-            let data: ConcertList.ConcertsResponse = try await WebService().downloadData(fromURL: "https://concertapi-service-app.onrender.com/api/concerts")
+            let data: ConcertsResponse = try await WebService().downloadData(fromURL: "https://concertapi-service-app.onrender.com/api/concerts")
             DispatchQueue.main.async {
                 self.concerts = data.items
                 self.error = nil
@@ -39,10 +31,5 @@ class ConcertListViewModel: ObservableObject {
                 self.error = .unknown
             }
         }
-    }
-
-    func updateConcertDetail(new: Concert) {
-        concertDetail = new
-        newComment = new.details.comment
     }
 }

@@ -10,7 +10,7 @@ import SwiftUI
 class ConcertDetailViewModel: ObservableObject {
     @Published var newComment: String = ""
 
-    func updateComment(concert: ConcertList.Concert) async {
+    func updateComment(concert: Concert) async {
         do {
             var updatedConcert = concert
             updatedConcert.details.comment = newComment

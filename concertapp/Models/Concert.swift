@@ -13,41 +13,41 @@ struct ConcertList: Codable {
     static let mockData = ConcertList(concerts: [
         Concert(id: 1, name: "Jazz in the park", date: Date(), isConfirmed: true, address: Concert.Address(street: "Koning Albertpark", number: "1", city: "Gent"), details: Concert.Details(price: 10.0, comment: "Bring your own drinks", organisation: "Jazz Gent", phone: "09 123 45 67", email: "test@test.be"), placeId: nil, organizerId: nil),
         Concert(id: 2, name: "Rock Werchter", date: Date(), isConfirmed: false, address: Concert.Address(street: "Haachtsesteenweg", number: "23", city: "Werchter"), details: Concert.Details(price: 100.0, comment: "No drinks allowed", organisation: "Rock Werchter", phone: "09 123 45 67", email: "werchter@wer.chter"), placeId: nil, organizerId: nil)])
+}
 
-    struct Concert: Identifiable, Codable {
-        let id: Int
-        let name: String
-        let date: Date
-        let isConfirmed: Bool
-        let address: Address
-        var details: Details
+struct ConcertsResponse: Codable {
+    let items: [Concert]
+    let count: Int
+}
 
-        // Required for encoding
-        let placeId: Int?
-        let organizerId: Int?
+struct Concert: Identifiable, Codable {
+    let id: Int
+    let name: String
+    let date: Date
+    let isConfirmed: Bool
+    let address: Address
+    var details: Details
 
-        struct Address: Codable {
-            let street: String
-            let number: String
-            let city: String
-        }
+    // Required for encoding
+    let placeId: Int?
+    let organizerId: Int?
 
-        struct Details: Codable {
-            let price: Double
-            var comment: String
-            let organisation: String
-            let phone: String
-            let email: String
-        }
+    struct Address: Codable {
+        let street: String
+        let number: String
+        let city: String
     }
 
-    struct ConcertsResponse: Codable {
-        let items: [Concert]
-        let count: Int
+    struct Details: Codable {
+        let price: Double
+        var comment: String
+        let organisation: String
+        let phone: String
+        let email: String
     }
 }
 
-extension ConcertList.Concert {
+extension Concert {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: DecodingKeys.self)
 
@@ -80,28 +80,11 @@ extension ConcertList.Concert {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: EncodingKeys.self)
 
-//        try container.encode(id, forKey: .id)
         try container.encode(name, forKey: .name)
         try container.encode(date, forKey: .date)
         try container.encode(isConfirmed, forKey: .isConfirmed)
-
-//        // Encode Address
-//        var placeContainer = container.nestedContainer(keyedBy: AddressKeys.self, forKey: .place)
-//        try placeContainer.encode(placeId, forKey: .id)
-//        try placeContainer.encode(address.street, forKey: .street)
-//        try placeContainer.encode(Int(address.number), forKey: .houseNr)
-//        try placeContainer.encode(address.city, forKey: .city)
-
-//        // Encode Details
-//        var organizerContainer = container.nestedContainer(keyedBy: OrganizerKeys.self, forKey: .organizer)
-//        try organizerContainer.encode(organizerId, forKey: .id)
-//        try organizerContainer.encode(details.organisation, forKey: .name)
-//        try organizerContainer.encode(details.phone, forKey: .phoneNr)
-//        try organizerContainer.encode(details.email, forKey: .email)
-
         try container.encode(details.price, forKey: .price)
         try container.encode(details.comment.isEmpty ? "None" : details.comment, forKey: .comment)
-
         try container.encode(placeId, forKey: .placeId)
         try container.encode(organizerId, forKey: .organizerId)
     }
