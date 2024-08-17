@@ -13,13 +13,15 @@ struct ConcertDetailView: View {
     @State private var isAnimating = false
 
     var body: some View {
-        VStack(alignment: .leading) {
-            header
-            concertDetails
-            Spacer()
-            commentSection
+        ScrollView {
+            VStack {
+                header
+                concertDetails
+                Spacer()
+                commentSection
+            }
         }
-        .background(Color.theme.background.ignoresSafeArea())
+        .background(Color.theme.background)
         .onAppear {
             viewModel.newComment = concert.details.comment
         }
@@ -68,12 +70,12 @@ struct ConcertDetailView: View {
 
     private var commentTextField: some View {
         TextField("Enter your comment", text: $viewModel.newComment, axis: .vertical)
-            .padding()
-            .lineLimit(5, reservesSpace: true)
+            .padding(8)
+            .lineLimit(3, reservesSpace: true)
             .scrollIndicators(.visible)
             .background(Color.theme.white)
             .foregroundColor(Color.theme.primary)
-            .cornerRadius(20)
+            .cornerRadius(8)
             .shadow(color: Color.black.opacity(0.2), radius: 4)
             .disabled(concert.date <= Date())
     }
@@ -105,7 +107,6 @@ struct ConcertDetailView: View {
 
 struct ConcertDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        let namespace = Namespace().wrappedValue
         ConcertDetailView(concert: ConcertList.mockData.concerts.first!)
             .environmentObject(ConcertDetailViewModel())
     }

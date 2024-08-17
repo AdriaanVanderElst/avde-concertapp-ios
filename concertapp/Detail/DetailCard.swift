@@ -17,9 +17,9 @@ struct DetailCard: View {
             Spacer()
             valueField
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
         .background(Color.theme.white)
-        .cornerRadius(20)
+        .cornerRadius(8)
         .shadow(color: Color.black.opacity(0.2), radius: 4)
         .padding(.horizontal)
     }
@@ -28,7 +28,7 @@ struct DetailCard: View {
         Text("\(label):")
             .font(.headline)
             .foregroundColor(Color.theme.secondary)
-            .padding()
+            .padding(8)
     }
 
     private var valueField: some View {
@@ -37,6 +37,6 @@ struct DetailCard: View {
             .foregroundColor(Color.theme.primary)
             .multilineTextAlignment(.leading)
             .fixedSize(horizontal: false, vertical: true)
-            .padding()
+            .padding(8)
     }
 }

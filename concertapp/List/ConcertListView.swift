@@ -74,10 +74,8 @@ struct ConcertListView: View {
     }
 
     private func loadConcerts() {
-        if viewModel.concerts.isEmpty {
-            Task {
-                await viewModel.fetchConcerts()
-            }
+        Task {
+            await viewModel.fetchConcerts()
         }
     }
 }
